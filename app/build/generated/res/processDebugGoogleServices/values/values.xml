@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">858273351720</string>
+    <string name="google_api_key" translatable="false">AIzaSyBA3hdyBd66e5dIcgK3S9GI53A8MvtwnYM</string>
+    <string name="google_app_id" translatable="false">1:858273351720:android:e0395b9f012009e1724d1d</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBA3hdyBd66e5dIcgK3S9GI53A8MvtwnYM</string>
+    <string name="google_storage_bucket" translatable="false">pibmin-bf309.firebasestorage.app</string>
+    <string name="project_id" translatable="false">pibmin-bf309</string>
+</resources>

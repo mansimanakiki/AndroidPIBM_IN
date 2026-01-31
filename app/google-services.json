@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "858273351720",
+    "project_id": "pibmin-bf309",
+    "storage_bucket": "pibmin-bf309.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858273351720:android:e0395b9f012009e1724d1d",
+        "android_client_info": {
+          "package_name": "com.ramanbyte.pibm_in"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA3hdyBd66e5dIcgK3S9GI53A8MvtwnYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

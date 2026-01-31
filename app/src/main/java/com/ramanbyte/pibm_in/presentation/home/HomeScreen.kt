@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -68,25 +69,27 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    // Removed Scaffold and TopAppBar - Direct content
-    when (val state = uiState) {
-        is HomeUiState.Loading -> {
-            LoadingScreen()
-        }
+    // Removed Scaffold and TopAppBar - Direct content with status bar padding
+    Box(modifier = Modifier.fillMaxSize()) {
+        when (val state = uiState) {
+            is HomeUiState.Loading -> {
+                LoadingScreen()
+            }
 
-        is HomeUiState.Success -> {
-            HomeContent(
-                banners = state.banners,
-                pibmInfo = state.pibmInfo,
-                navigationItems = state.navigationItems
-            )
-        }
+            is HomeUiState.Success -> {
+                HomeContent(
+                    banners = state.banners,
+                    pibmInfo = state.pibmInfo,
+                    navigationItems = state.navigationItems
+                )
+            }
 
-        is HomeUiState.Error -> {
-            ErrorScreen(
-                message = state.message,
-                onRetry = { viewModel.retry() }
-            )
+            is HomeUiState.Error -> {
+                ErrorScreen(
+                    message = state.message,
+                    onRetry = { viewModel.retry() }
+                )
+            }
         }
     }
 }
@@ -94,7 +97,9 @@ fun HomeScreen(
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .statusBarsPadding(), // Add status bar padding
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()
@@ -108,7 +113,9 @@ fun ErrorScreen(
     onRetry: () -> Unit
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier
+            .fillMaxSize()
+            .statusBarsPadding(), // Add status bar padding
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -139,10 +146,12 @@ fun HomeContent(
     navigationItems: List<NavigationItem>
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(bottom = 16.dp) // Only bottom padding
+        modifier = modifier
+            .fillMaxSize()
+            .statusBarsPadding(), // Add status bar padding to prevent overlap
+        contentPadding = PaddingValues(bottom = 16.dp)
     ) {
-        // Banners Section - No top padding for full width effect
+        // Banners Section
         if (banners.isNotEmpty()) {
             item {
                 BannerSection(banners = banners)
@@ -390,20 +399,20 @@ fun getSampleBanners() = listOf(
     BannerItem(
         _id = "1",
         _imageUrl = "https://example.com/banner_1.png",
-        _title = "Welcome to Ramanbyte",
-        _subtitle = "Explore jobs, internships & opportunities"
+        _title = "Welcome to PIBM",
+        _subtitle = "Explore excellence in education"
     ),
     BannerItem(
         _id = "2",
         _imageUrl = "https://example.com/banner_2.png",
-        _title = "Apply Faster",
-        _subtitle = "Track applications in real time"
+        _title = "Admissions Open",
+        _subtitle = "Apply for the upcoming semester"
     ),
     BannerItem(
         _id = "3",
         _imageUrl = "https://example.com/banner_3.png",
-        _title = "Get Notified",
-        _subtitle = "Never miss an interview call"
+        _title = "Campus Tour",
+        _subtitle = "Visit our state-of-the-art facilities"
     )
 )
 
@@ -488,8 +497,8 @@ fun PreviewBannerCard() {
             banner = BannerItem(
                 _id = "1",
                 _imageUrl = "https://example.com/banner_1.png",
-                _title = "Welcome to Ramanbyte",
-                _subtitle = "Explore jobs, internships & opportunities"
+                _title = "Welcome to PIBM",
+                _subtitle = "Explore excellence in education"
             )
         )
     }

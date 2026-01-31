@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -69,37 +68,32 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    // Removed Scaffold and TopAppBar - Direct content with status bar padding
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
         when (val state = uiState) {
-            is HomeUiState.Loading -> {
-                LoadingScreen()
-            }
+            is HomeUiState.Loading -> LoadingScreen()
+            is HomeUiState.Success -> HomeContent(
+                banners = state.banners,
+                pibmInfo = state.pibmInfo,
+                navigationItems = state.navigationItems
+            )
 
-            is HomeUiState.Success -> {
-                HomeContent(
-                    banners = state.banners,
-                    pibmInfo = state.pibmInfo,
-                    navigationItems = state.navigationItems
-                )
-            }
-
-            is HomeUiState.Error -> {
-                ErrorScreen(
-                    message = state.message,
-                    onRetry = { viewModel.retry() }
-                )
-            }
+            is HomeUiState.Error -> ErrorScreen(
+                message = state.message,
+                onRetry = { viewModel.retry() }
+            )
         }
     }
 }
+
 
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .fillMaxSize()
-            .statusBarsPadding(), // Add status bar padding
+            .fillMaxSize(), // Add status bar padding
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()
@@ -114,8 +108,7 @@ fun ErrorScreen(
 ) {
     Column(
         modifier = modifier
-            .fillMaxSize()
-            .statusBarsPadding(), // Add status bar padding
+            .fillMaxSize(), // Add status bar padding
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -147,9 +140,8 @@ fun HomeContent(
 ) {
     LazyColumn(
         modifier = modifier
-            .fillMaxSize()
-            .statusBarsPadding(), // Add status bar padding to prevent overlap
-        contentPadding = PaddingValues(bottom = 16.dp)
+            .fillMaxSize(), // Add status bar padding to prevent overlap
+        contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp)
     ) {
         // Banners Section
         if (banners.isNotEmpty()) {

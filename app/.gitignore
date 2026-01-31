@@ -18,7 +18,9 @@ release/
 # Gradle files
 .gradle/
 build/
-
+build/kotlin
+build/generated
+build/intermediates
 # Local configuration file (sdk path, etc)
 local.properties
 

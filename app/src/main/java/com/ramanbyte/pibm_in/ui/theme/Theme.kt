@@ -17,28 +17,38 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF1976D2),
-    secondary = Color(0xFF03DAC6),
-    tertiary = Color(0xFF3700B3)
+    primary = Primary,
+    secondary = Secondary,
+    tertiary = SecondaryDark,
+    background = Color(0xFF1C1B1F),
+    surface = Color(0xFF1C1B1F),
+    error = Error,
+    onPrimary = OnPrimary,
+    onSecondary = OnSecondary,
+    onBackground = Color(0xFFE6E1E5),
+    onSurface = Color(0xFFE6E1E5),
+    onError = OnError
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF1976D2),
-    secondary = Color(0xFF03DAC6),
-    tertiary = Color(0xFF3700B3),
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
+    primary = Primary,
+    secondary = Secondary,
+    tertiary = SecondaryLight,
+    background = Background,
+    surface = Surface,
+    error = Error,
+    onPrimary = OnPrimary,
+    onSecondary = OnSecondary,
+    onBackground = OnBackground,
+    onSurface = OnSurface,
+    onError = OnError
 )
 
 @Composable
 fun PIBMTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    // Dynamic color is available on Android 12+
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -55,7 +65,7 @@ fun PIBMTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 

@@ -38,13 +38,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -56,50 +52,41 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.ramanbyte.pibm_in.data.model.BannerItem
 import com.ramanbyte.pibm_in.data.model.NavigationItem
 import com.ramanbyte.pibm_in.data.model.PibmInfo
+import com.ramanbyte.pibm_in.ui.theme.PIBMTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("PIBM") },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
-                )
+
+    // Removed Scaffold and TopAppBar - Direct content
+    when (val state = uiState) {
+        is HomeUiState.Loading -> {
+            LoadingScreen()
+        }
+
+        is HomeUiState.Success -> {
+            HomeContent(
+                banners = state.banners,
+                pibmInfo = state.pibmInfo,
+                navigationItems = state.navigationItems
             )
         }
-    ) { paddingValues ->
-        when (val state = uiState) {
-            is HomeUiState.Loading -> {
-                LoadingScreen(Modifier.padding(paddingValues))
-            }
-            is HomeUiState.Success -> {
-                HomeContent(
-                    modifier = Modifier.padding(paddingValues),
-                    banners = state.banners,
-                    pibmInfo = state.pibmInfo,
-                    navigationItems = state.navigationItems
-                )
-            }
-            is HomeUiState.Error -> {
-                ErrorScreen(
-                    modifier = Modifier.padding(paddingValues),
-                    message = state.message,
-                    onRetry = { viewModel.retry() }
-                )
-            }
+
+        is HomeUiState.Error -> {
+            ErrorScreen(
+                message = state.message,
+                onRetry = { viewModel.retry() }
+            )
         }
     }
 }
@@ -153,22 +140,22 @@ fun HomeContent(
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(bottom = 16.dp)
+        contentPadding = PaddingValues(bottom = 16.dp) // Only bottom padding
     ) {
-        // Banners Section
+        // Banners Section - No top padding for full width effect
         if (banners.isNotEmpty()) {
             item {
                 BannerSection(banners = banners)
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }
-        
+
         // PIBM Info Section
         item {
             PibmInfoSection(pibmInfo = pibmInfo)
             Spacer(modifier = Modifier.height(24.dp))
         }
-        
+
         // Navigation Items Section
         item {
             Text(
@@ -179,7 +166,7 @@ fun HomeContent(
             )
             Spacer(modifier = Modifier.height(12.dp))
         }
-        
+
         items(navigationItems.chunked(2)) { rowItems ->
             Row(
                 modifier = Modifier
@@ -292,7 +279,7 @@ fun PibmInfoSection(pibmInfo: PibmInfo) {
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
-            
+
             if (pibmInfo.highlights.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(12.dp))
                 pibmInfo.highlights.forEach { highlight ->
@@ -325,7 +312,7 @@ fun NavigationCard(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    
+
     Card(
         modifier = modifier
             .height(120.dp)
@@ -373,4 +360,178 @@ fun getIconForName(iconName: String) = when (iconName.lowercase()) {
     "info" -> Icons.Default.Info
     "phone" -> Icons.Default.Phone
     else -> Icons.Default.ArrowForward
+}
+
+// ============================================
+// PREVIEW FUNCTIONS
+// ============================================
+
+/**
+ * Preview data provider for HomeContent
+ */
+class HomeContentPreviewParameterProvider : PreviewParameterProvider<HomeContentPreviewData> {
+    override val values = sequenceOf(
+        HomeContentPreviewData(
+            banners = getSampleBanners(),
+            pibmInfo = getSamplePibmInfo(),
+            navigationItems = getSampleNavigationItems()
+        )
+    )
+}
+
+data class HomeContentPreviewData(
+    val banners: List<BannerItem>,
+    val pibmInfo: PibmInfo,
+    val navigationItems: List<NavigationItem>
+)
+
+// Sample data for previews
+fun getSampleBanners() = listOf(
+    BannerItem(
+        _id = "1",
+        _imageUrl = "https://example.com/banner_1.png",
+        _title = "Welcome to Ramanbyte",
+        _subtitle = "Explore jobs, internships & opportunities"
+    ),
+    BannerItem(
+        _id = "2",
+        _imageUrl = "https://example.com/banner_2.png",
+        _title = "Apply Faster",
+        _subtitle = "Track applications in real time"
+    ),
+    BannerItem(
+        _id = "3",
+        _imageUrl = "https://example.com/banner_3.png",
+        _title = "Get Notified",
+        _subtitle = "Never miss an interview call"
+    )
+)
+
+fun getSamplePibmInfo() = PibmInfo(
+    _title = "Pune Institute of Business Management",
+    _description = "PIBM is one of India's premier business schools, offering world-class management education.",
+    _highlights = listOf(
+        "AICTE Approved",
+        "Industry-Integrated Curriculum",
+        "100% Placement Assistance",
+        "State-of-the-art Infrastructure"
+    )
+)
+
+
+fun getSampleNavigationItems() = listOf(
+    NavigationItem(1, "Admissions", "school", "https://pibm.in/admissions", 1),
+    NavigationItem(2, "Courses", "book", "https://pibm.in/courses", 2),
+    NavigationItem(3, "Placements", "work", "https://pibm.in/placements", 3),
+    NavigationItem(4, "Faculty", "people", "https://pibm.in/faculty", 4),
+    NavigationItem(5, "Campus", "location_city", "https://pibm.in/campus", 5),
+    NavigationItem(6, "Contact Us", "contact_mail", "https://pibm.in/contact", 6)
+)
+
+
+// Preview for Home Content (Success State)
+@Preview(name = "Home Content - Light", showBackground = true)
+@Composable
+fun PreviewHomeContent() {
+    PIBMTheme {
+        HomeContent(
+            banners = getSampleBanners(),
+            pibmInfo = getSamplePibmInfo(),
+            navigationItems = getSampleNavigationItems()
+        )
+    }
+}
+
+@Preview(
+    name = "Home Content - Dark",
+    showBackground = true,
+    uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+fun PreviewHomeContentDark() {
+    PIBMTheme {
+        HomeContent(
+            banners = getSampleBanners(),
+            pibmInfo = getSamplePibmInfo(),
+            navigationItems = getSampleNavigationItems()
+        )
+    }
+}
+
+// Preview for Loading State
+@Preview(name = "Loading State", showBackground = true)
+@Composable
+fun PreviewLoadingScreen() {
+    PIBMTheme {
+        LoadingScreen()
+    }
+}
+
+// Preview for Error State
+@Preview(name = "Error State", showBackground = true)
+@Composable
+fun PreviewErrorScreen() {
+    PIBMTheme {
+        ErrorScreen(
+            message = "Failed to load data. Please check your internet connection.",
+            onRetry = {}
+        )
+    }
+}
+
+// Preview for Individual Components
+@Preview(name = "Banner Card", showBackground = true)
+@Composable
+fun PreviewBannerCard() {
+    PIBMTheme {
+        BannerCard(
+            banner = BannerItem(
+                _id = "1",
+                _imageUrl = "https://example.com/banner_1.png",
+                _title = "Welcome to Ramanbyte",
+                _subtitle = "Explore jobs, internships & opportunities"
+            )
+        )
+    }
+}
+
+@Preview(name = "PIBM Info Section", showBackground = true)
+@Composable
+fun PreviewPibmInfoSection() {
+    PIBMTheme {
+        PibmInfoSection(pibmInfo = getSamplePibmInfo())
+    }
+}
+
+@Preview(name = "Navigation Card", showBackground = true)
+@Composable
+fun PreviewNavigationCard() {
+    PIBMTheme {
+        NavigationCard(
+            item = NavigationItem(1, "Admissions", "school", "https://pibm.in/admissions", 1),
+            modifier = Modifier.width(150.dp)
+        )
+    }
+}
+
+@Preview(name = "Navigation Cards Row", showBackground = true)
+@Composable
+fun PreviewNavigationCardsRow() {
+    PIBMTheme {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            NavigationCard(
+                item = NavigationItem(1, "Admissions", "school", "https://pibm.in/admissions", 1),
+                modifier = Modifier.weight(1f)
+            )
+            NavigationCard(
+                item = NavigationItem(2, "Courses", "book", "https://pibm.in/courses", 2),
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
 }

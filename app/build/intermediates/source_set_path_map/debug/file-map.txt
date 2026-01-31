@@ -68,10 +68,10 @@ com.ramanbyte.pibm_in.app-lifecycle-livedata-core-2.6.2-66 /home/user/.gradle/ca
 com.ramanbyte.pibm_in.app-lifecycle-viewmodel-2.6.2-67 /home/user/.gradle/caches/transforms-3/f8a8130449f759a15d254a67d8384289/transformed/lifecycle-viewmodel-2.6.2/res
 com.ramanbyte.pibm_in.app-sqlite-framework-2.4.0-68 /home/user/.gradle/caches/transforms-3/fa34e204b1c6726aebc4df480699f897/transformed/sqlite-framework-2.4.0/res
 com.ramanbyte.pibm_in.app-jetified-firebase-common-20.4.2-69 /home/user/.gradle/caches/transforms-3/fccbbad05bc1f4a562378681b76ccbcb/transformed/jetified-firebase-common-20.4.2/res
-com.ramanbyte.pibm_in.app-res-70 /home/user/Downloads/pibm_app_fixed/pibm_app/app/build/generated/res/processDebugGoogleServices
-com.ramanbyte.pibm_in.app-resValues-71 /home/user/Downloads/pibm_app_fixed/pibm_app/app/build/generated/res/resValues/debug
-com.ramanbyte.pibm_in.app-packageDebugResources-72 /home/user/Downloads/pibm_app_fixed/pibm_app/app/build/intermediates/incremental/debug/packageDebugResources/merged.dir
-com.ramanbyte.pibm_in.app-packageDebugResources-73 /home/user/Downloads/pibm_app_fixed/pibm_app/app/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
-com.ramanbyte.pibm_in.app-merged_res-74 /home/user/Downloads/pibm_app_fixed/pibm_app/app/build/intermediates/merged_res/debug
-com.ramanbyte.pibm_in.app-debug-75 /home/user/Downloads/pibm_app_fixed/pibm_app/app/src/debug/res
-com.ramanbyte.pibm_in.app-main-76 /home/user/Downloads/pibm_app_fixed/pibm_app/app/src/main/res
+com.ramanbyte.pibm_in.app-res-70 /home/user/StudioProjects/AndroidPIBM_IN/app/build/generated/res/processDebugGoogleServices
+com.ramanbyte.pibm_in.app-resValues-71 /home/user/StudioProjects/AndroidPIBM_IN/app/build/generated/res/resValues/debug
+com.ramanbyte.pibm_in.app-packageDebugResources-72 /home/user/StudioProjects/AndroidPIBM_IN/app/build/intermediates/incremental/debug/packageDebugResources/merged.dir
+com.ramanbyte.pibm_in.app-packageDebugResources-73 /home/user/StudioProjects/AndroidPIBM_IN/app/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
+com.ramanbyte.pibm_in.app-merged_res-74 /home/user/StudioProjects/AndroidPIBM_IN/app/build/intermediates/merged_res/debug
+com.ramanbyte.pibm_in.app-debug-75 /home/user/StudioProjects/AndroidPIBM_IN/app/src/debug/res
+com.ramanbyte.pibm_in.app-main-76 /home/user/StudioProjects/AndroidPIBM_IN/app/src/main/res

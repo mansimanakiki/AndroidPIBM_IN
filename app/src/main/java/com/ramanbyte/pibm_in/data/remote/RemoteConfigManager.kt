@@ -49,22 +49,24 @@ class RemoteConfigManager @Inject constructor(
     }
     
     fun getBanners(): List<BannerItem> {
-        val json = remoteConfig.getString(BANNERS_KEY)
+        /*val json = remoteConfig.getString(BANNERS_KEY)
         return try {
             val type = object : TypeToken<List<BannerItem>>() {}.type
             gson.fromJson(json, type)
         } catch (e: Exception) {
-            emptyList()
-        }
+            getDefaultBannerItem()
+        }*/
+        return getDefaultBannerItem()
     }
     
     fun getPibmInfo(): PibmInfo {
-        val json = remoteConfig.getString(PIBM_INFO_KEY)
+        return getDefaultPibmInfo()
+        /*val json = remoteConfig.getString(PIBM_INFO_KEY)
         return try {
             gson.fromJson(json, PibmInfo::class.java)
         } catch (e: Exception) {
             getDefaultPibmInfo()
-        }
+        }*/
     }
     
     fun getNavigationItems(): List<NavigationItem> {
@@ -104,4 +106,28 @@ class RemoteConfigManager @Inject constructor(
             )
         )
     }
+
+    private fun getDefaultBannerItem(): List<BannerItem> {
+        return listOf(
+            BannerItem(
+                _id = "1",
+                _imageUrl = "https://example.com/banner_1.png",
+                _title = "Welcome to Ramanbyte",
+                _subtitle = "Explore jobs, internships & opportunities"
+            ),
+            BannerItem(
+                _id = "2",
+                _imageUrl = "https://example.com/banner_2.png",
+                _title = "Apply Faster",
+                _subtitle = "Track applications in real time"
+            ),
+            BannerItem(
+                _id = "3",
+                _imageUrl = "https://example.com/banner_3.png",
+                _title = "Get Notified",
+                _subtitle = "Never miss an interview call"
+            )
+        )
+    }
+
 }
